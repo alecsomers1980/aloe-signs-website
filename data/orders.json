@@ -1,0 +1,128 @@
+[
+  {
+    "id": "order_1770807879391_l4gdftm7v",
+    "orderNumber": "ALO1770807879392386",
+    "customerName": "Edward Alec Somers",
+    "customerEmail": "alecs@precisionmedia.co.za",
+    "customerPhone": "0828588163",
+    "customerAddress": {
+      "street": "Ella Combrink Camp, R40 road",
+      "city": "White River",
+      "province": "Mpumalanga",
+      "postalCode": "1240"
+    },
+    "items": [
+      {
+        "id": "estate-board-small",
+        "name": "Estate Agent Board - Small",
+        "category": "estate-boards",
+        "description": "Professional correx estate agent board. Perfect for residential properties. Weatherproof and durable.",
+        "size": "600 x 400mm",
+        "price": 450,
+        "originalPrice": 3565,
+        "discount": 87,
+        "image": "/images/products/estate-board-small.jpg",
+        "features": [
+          "5mm correx material",
+          "Full color printing",
+          "Weatherproof",
+          "Lightweight and durable",
+          "Easy to install"
+        ],
+        "inStock": true,
+        "quantity": 1
+      }
+    ],
+    "subtotal": 450,
+    "shipping": 150,
+    "total": 600,
+    "status": "pending",
+    "paymentStatus": "pending",
+    "createdAt": "2026-02-11T11:04:39.388Z",
+    "updatedAt": "2026-02-11T11:04:39.388Z"
+  },
+  {
+    "id": "order_1770811933669_6cpf9g4kd",
+    "orderNumber": "ALO1770811933669859",
+    "customerName": "Edward Alec Somers",
+    "customerEmail": "alecs@precisionmedia.co.za",
+    "customerPhone": "0828588163",
+    "customerAddress": {
+      "street": "Ella Combrink Camp, R40 road",
+      "city": "White River",
+      "province": "Mpumalanga",
+      "postalCode": "1240"
+    },
+    "items": [
+      {
+        "id": "estate-board-small",
+        "name": "Estate Agent Board - Small",
+        "category": "estate-boards",
+        "description": "Professional correx estate agent board. Perfect for residential properties. Weatherproof and durable.",
+        "size": "600 x 400mm",
+        "price": 450,
+        "originalPrice": 3565,
+        "discount": 87,
+        "image": "/images/products/estate-board-small.jpg",
+        "features": [
+          "5mm correx material",
+          "Full color printing",
+          "Weatherproof",
+          "Lightweight and durable",
+          "Easy to install"
+        ],
+        "inStock": true,
+        "quantity": 1
+      }
+    ],
+    "subtotal": 450,
+    "shipping": 150,
+    "total": 600,
+    "status": "pending",
+    "paymentStatus": "pending",
+    "createdAt": "2026-02-11T12:12:13.669Z",
+    "updatedAt": "2026-02-11T12:12:13.669Z"
+  },
+  {
+    "id": "order_1770812143697_ssd30lcnx",
+    "orderNumber": "ALO1770812143697482",
+    "customerName": "Edward Alec Somers",
+    "customerEmail": "alecs@precisionmedia.co.za",
+    "customerPhone": "0828588163",
+    "customerAddress": {
+      "street": "Ella Combrink Camp, R40 road",
+      "city": "White River",
+      "province": "Mpumalanga",
+      "postalCode": "1240"
+    },
+    "items": [
+      {
+        "id": "estate-board-small",
+        "name": "Estate Agent Board - Small",
+        "category": "estate-boards",
+        "description": "Professional correx estate agent board. Perfect for residential properties. Weatherproof and durable.",
+        "size": "600 x 400mm",
+        "price": 450,
+        "originalPrice": 3565,
+        "discount": 87,
+        "image": "/images/products/estate-board-small.jpg",
+        "features": [
+          "5mm correx material",
+          "Full color printing",
+          "Weatherproof",
+          "Lightweight and durable",
+          "Easy to install"
+        ],
+        "inStock": true,
+        "quantity": 1
+      }
+    ],
+    "subtotal": 450,
+    "shipping": 150,
+    "total": 600,
+    "status": "shipped",
+    "paymentStatus": "pending",
+    "createdAt": "2026-02-11T12:15:43.697Z",
+    "updatedAt": "2026-02-11T13:22:32.244Z"
+  }
+]

@@ -1,0 +1,11 @@
+<svg width="1920" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1A1A1A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2A2A2A;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="600" fill="url(#heroGrad)"/>
+  <text x="960" y="280" font-family="Arial, sans-serif" font-size="48" fill="#00E533" text-anchor="middle" font-weight="bold">ALOE SIGNS</text>
+  <text x="960" y="340" font-family="Arial, sans-serif" font-size="24" fill="#FFFFFF" text-anchor="middle">Professional Signage Solutions</text>
+</svg>

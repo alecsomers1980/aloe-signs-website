@@ -1,0 +1,176 @@
+﻿
+> aloe-signs-website@0.1.0 lint
+> eslint
+
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\about\page.tsx
+   40:54  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+   57:74  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  188:85  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\admin\orders\[id]\page.tsx
+  50:8  warning  React Hook useEffect has a missing dependency: 'loadOrder'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\api\admin\logout\route.ts
+  3:28  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\api\admin\orders\[id]\route.ts
+  38:17  error    'orders' is never reassigned. Use 'const' instead  prefer-const
+  73:18  warning  'error' is defined but never used                  @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\api\admin\orders\route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  17:18  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\api\contact\route.ts
+  2:10  warning  'sendOrderConfirmationEmail' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\api\orders\[id]\route.ts
+  54:18  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\api\orders\create\route.ts
+  45:18  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  56:18  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\api\payfast\return\route.ts
+  1:23  warning  'NextResponse' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\api\test-email\route.ts
+  30:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\contact\page.tsx
+  36:35   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  40:100  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\get-quote\page.tsx
+    4:8   warning  'Image' is defined but never used                                @typescript-eslint/no-unused-vars
+  111:67  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  130:72  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\order\confirmation\page.tsx
+   51:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\order\confirmation\page.tsx:51:13
+  49 |                 });
+  50 |         } else {
+> 51 |             setLoading(false);
+     |             ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  52 |         }
+  53 |     }, [orderId, clearCart]);
+  54 |  react-hooks/set-state-in-effect
+   77:71  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  react/no-unescaped-entities
+  160:42  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  react/no-unescaped-entities
+  162:41  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  react/no-unescaped-entities
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\order\track\page.tsx
+   52:8   warning  React Hook useEffect has a missing dependency: 'order'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  342:49  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                           react/no-unescaped-entities
+  342:61  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                           react/no-unescaped-entities
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\portfolio\[id]\page.tsx
+  204:44  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\portfolio\page.tsx
+  128:83  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                      react/no-unescaped-entities
+  160:9   error  React Hook "useEffect" cannot be called inside a callback. React Hooks must be called in a React function component or a custom React Hook function  react-hooks/rules-of-hooks
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\shop\checkout\page.tsx
+  13:11  warning  'router' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\app\shop\page.tsx
+   5:8   warning  'Image' is defined but never used                     @typescript-eslint/no-unused-vars
+   6:41  warning  'getLowestUnitPrice' is defined but never used        @typescript-eslint/no-unused-vars
+   7:10  warning  'formatPrice' is defined but never used               @typescript-eslint/no-unused-vars
+  24:11  warning  'handleAddToCart' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\components\ContactForm.tsx
+  50:18  warning  'error' is defined but never used                                @typescript-eslint/no-unused-vars
+  74:34  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\components\Footer.tsx
+  46:33  error  Do not use an `<a>` element to navigate to `/shop/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages       @next/next/no-html-link-for-pages
+  47:33  error  Do not use an `<a>` element to navigate to `/shop/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages       @next/next/no-html-link-for-pages
+  48:33  error  Do not use an `<a>` element to navigate to `/shop/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages       @next/next/no-html-link-for-pages
+  49:33  error  Do not use an `<a>` element to navigate to `/shop/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages       @next/next/no-html-link-for-pages
+  50:33  error  Do not use an `<a>` element to navigate to `/shop/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages       @next/next/no-html-link-for-pages
+  59:33  error  Do not use an `<a>` element to navigate to `/portfolio/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\components\ServiceHero.tsx
+  10:68  warning  'backgroundImage' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\components\ServicePageTemplate.tsx
+  65:104  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\components\ShopSpecials.tsx
+   3:20  warning  'getLowestUnitPrice' is defined but never used                                                                                                              @typescript-eslint/no-unused-vars
+   4:10  warning  'formatPrice' is defined but never used                                                                                                                     @typescript-eslint/no-unused-vars
+   5:8   warning  'Link' is defined but never used                                                                                                                            @typescript-eslint/no-unused-vars
+  36:21  error    Do not use an `<a>` element to navigate to `/shop/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\components\WhatsAppButton.tsx
+  4:8  warning  'Image' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\context\CartContext.tsx
+  36:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\context\CartContext.tsx:36:13
+  34 |         const savedCart = localStorage.getItem('aloe-cart');
+  35 |         if (savedCart) {
+> 36 |             setCart(JSON.parse(savedCart));
+     |             ^^^^^^^ Avoid calling setState() directly within an effect
+  37 |         }
+  38 |     }, []);
+  39 |  react-hooks/set-state-in-effect
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\lib\email.ts
+  257:49  warning  'previousStatus' is defined but never used  @typescript-eslint/no-unused-vars
+  345:49  warning  'previousStatus' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\lib\payfast.ts
+  149:25  warning  'paymentId' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\lib\services.ts
+   2:5  warning  'Truck' is defined but never used        @typescript-eslint/no-unused-vars
+  14:5  warning  'CheckCircle' is defined but never used  @typescript-eslint/no-unused-vars
+  16:5  warning  'Clock' is defined but never used        @typescript-eslint/no-unused-vars
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\read_pricing.js
+  1:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\scripts\map-images.js
+  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\scripts\process-images.js
+  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  3:15  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  4:21  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\info\OneDrive\Documents\Antigravity\aloe-signs-website\scripts\process-structured-assets.js
+    1:12  error    A `require()` style import is forbidden            @typescript-eslint/no-require-imports
+    2:14  error    A `require()` style import is forbidden            @typescript-eslint/no-require-imports
+    3:15  error    A `require()` style import is forbidden            @typescript-eslint/no-require-imports
+    4:21  error    A `require()` style import is forbidden            @typescript-eslint/no-require-imports
+  109:14  warning  'findMainInPortfolio' is defined but never used    @typescript-eslint/no-unused-vars
+  125:15  warning  'serviceKeys' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  129:15  warning  'overrides' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  137:15  warning  'processedIds' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  139:15  warning  'serviceDirs' is assigned a value but never used   @typescript-eslint/no-unused-vars
+
+Γ£û 74 problems (40 errors, 34 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
