@@ -7,31 +7,53 @@ import Footer from '@/components/Footer';
 import { constructionProjects, portfolioCategories, Project } from '@/lib/portfolio';
 import { X } from 'lucide-react';
 
+import Link from 'next/link';
+
 export default function PortfolioPage() {
     const [activeCategory, setActiveCategory] = useState('All');
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const [modalMainImage, setModalMainImage] = useState<string>('');
 
     const filteredProjects = activeCategory === 'All'
         ? constructionProjects
         : constructionProjects.filter(project => project.category === activeCategory);
 
+    // When project selected, reset main image to default
+    const handleProjectClick = (project: Project) => {
+        setSelectedProject(project);
+        setModalMainImage(project.image);
+    };
+
     return (
         <div className="min-h-screen">
             <Header />
             <main>
-                {/* Hero Section */}
-                <div className="bg-charcoal text-white py-20 relative overflow-hidden">
+                {/* Hero Section (Rich Hero) */}
+                <div className="relative bg-charcoal text-white py-20 md:py-32">
                     <div className="absolute inset-0 opacity-10">
                         <div className="absolute inset-0" style={{
                             backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
                             backgroundSize: '40px 40px'
                         }}></div>
                     </div>
-                    <div className="max-w-[1400px] mx-auto px-6 relative z-10 text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Portfolio</h1>
-                        <p className="text-xl text-light-grey max-w-2xl mx-auto">
-                            Explore our recent work and see how we help businesses stand out.
-                        </p>
+
+                    <div className="max-w-7xl mx-auto px-6 relative z-10">
+                        <div className="max-w-3xl">
+                            <div className="flex items-center gap-2 text-sm text-light-grey mb-6">
+                                <Link href="/" className="hover:text-aloe-green transition-colors">
+                                    Home
+                                </Link>
+                                <span>/</span>
+                                <span className="text-white">Portfolio</span>
+                            </div>
+
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+                                Our Portfolio
+                            </h1>
+                            <p className="text-lg md:text-xl text-light-grey">
+                                Explore our recent work and see how we help businesses stand out.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -44,8 +66,8 @@ export default function PortfolioPage() {
                                     key={category}
                                     onClick={() => setActiveCategory(category)}
                                     className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${activeCategory === category
-                                            ? 'bg-aloe-green text-charcoal scale-105 shadow-md'
-                                            : 'bg-white text-medium-grey hover:bg-white/80 hover:text-charcoal border border-border-grey'
+                                        ? 'bg-aloe-green text-charcoal scale-105 shadow-md'
+                                        : 'bg-white text-medium-grey hover:bg-white/80 hover:text-charcoal border border-border-grey'
                                         }`}
                                 >
                                     {category}
@@ -63,7 +85,7 @@ export default function PortfolioPage() {
                                 <div
                                     key={project.id}
                                     className="group cursor-pointer bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-                                    onClick={() => setSelectedProject(project)}
+                                    onClick={() => handleProjectClick(project)}
                                 >
                                     <div className="relative aspect-[4/3] overflow-hidden">
                                         <Image
@@ -121,21 +143,38 @@ export default function PortfolioPage() {
                             <div className="bg-charcoal p-8 space-y-4">
                                 <div className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg border border-white/10">
                                     <Image
-                                        src={selectedProject.image}
+                                        src={modalMainImage}
                                         alt={selectedProject.title}
                                         fill
-                                        className="object-cover"
+                                        className="object-cover transition-all duration-300"
                                     />
                                 </div>
                                 {selectedProject.images && (
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-4 gap-2">
+                                        {/* Main image thumbnail included */}
+                                        <div
+                                            className={`relative aspect-[4/3] rounded overflow-hidden border cursor-pointer ${modalMainImage === selectedProject.image ? 'border-aloe-green ring-2 ring-aloe-green' : 'border-white/10 hover:border-white/50'}`}
+                                            onClick={() => setModalMainImage(selectedProject.image)}
+                                        >
+                                            <Image
+                                                src={selectedProject.image}
+                                                alt="Main view"
+                                                fill
+                                                className="object-cover"
+                                            />
+                                        </div>
+                                        {/* Additional images */}
                                         {selectedProject.images.map((img, idx) => (
-                                            <div key={idx} className="relative aspect-[4/3] rounded-lg overflow-hidden border border-white/10">
+                                            <div
+                                                key={idx}
+                                                className={`relative aspect-[4/3] rounded overflow-hidden border cursor-pointer ${modalMainImage === img ? 'border-aloe-green ring-2 ring-aloe-green' : 'border-white/10 hover:border-white/50'}`}
+                                                onClick={() => setModalMainImage(img)}
+                                            >
                                                 <Image
                                                     src={img}
                                                     alt={`${selectedProject.title} ${idx + 1}`}
                                                     fill
-                                                    className="object-cover hover:scale-110 transition-transform duration-500"
+                                                    className="object-cover"
                                                 />
                                             </div>
                                         ))}

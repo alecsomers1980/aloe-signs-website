@@ -119,14 +119,11 @@ export default function ProductDetailPage() {
                                     </div>
                                     {product.pricingTiers && (
                                         <div className="space-y-1">
-                                            <p className="text-xl font-semibold text-charcoal">
-                                                Total price for {quantity} units
-                                            </p>
-                                            <p className="text-lg text-medium-grey">
+                                            <p className="text-xl font-bold text-charcoal">
                                                 (R{formatPrice(currentPrice / quantity)} per board)
                                             </p>
-                                            <p className="text-sm text-medium-grey">
-                                                PRICE INCLUDES SHIPPING TO YOUR NEAREST POSTNET OR PUDO
+                                            <p className="text-lg text-medium-grey">
+                                                Total price for {quantity} units
                                             </p>
                                         </div>
                                     )}

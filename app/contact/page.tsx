@@ -73,6 +73,12 @@ export default function ContactPage() {
                                                 <h4 className="font-bold text-charcoal mb-1">Phone / WhatsApp</h4>
                                                 <div className="flex flex-col gap-1">
                                                     <a
+                                                        href="tel:0116932600"
+                                                        className="text-medium-grey hover:text-aloe-green transition-colors"
+                                                    >
+                                                        011 693 2600
+                                                    </a>
+                                                    <a
                                                         href="tel:0688838049"
                                                         className="text-medium-grey hover:text-aloe-green transition-colors"
                                                     >
@@ -82,7 +88,7 @@ export default function ContactPage() {
                                                         href="https://wa.me/27688838049"
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="text-sm font-bold text-aloe-green hover:underline flex items-center gap-1"
+                                                        className="text-sm font-bold text-aloe-green hover:underline flex items-center gap-1 mt-1"
                                                     >
                                                         Chat on WhatsApp
                                                     </a>
@@ -117,15 +123,6 @@ export default function ContactPage() {
                                                     42 Homestead Ave<br />
                                                     Randfontein, Gauteng
                                                 </p>
-                                                <iframe
-                                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.524795995872!2d27.6975619!3d-26.1798319!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e95c1c08c407dcd%3A0xe549557a66b5b5c7!2s42%20Homestead%20Ave%2C%20Homelake%2C%20Randfontein%2C%201759!5e0!3m2!1sen!2sza!4v1707736427000!5m2!1sen!2sza"
-                                                    width="100%"
-                                                    height="200"
-                                                    style={{ border: 0, borderRadius: '8px' }}
-                                                    allowFullScreen
-                                                    loading="lazy"
-                                                    referrerPolicy="no-referrer-when-downgrade"
-                                                ></iframe>
                                             </div>
                                         </div>
 
@@ -192,6 +189,19 @@ export default function ContactPage() {
                             </div>
                         </div>
                     </div>
+                </section>
+
+                {/* Map Section */}
+                <section className="h-[400px] w-full">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.524795995872!2d27.6975619!3d-26.1798319!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e95c1c08c407dcd%3A0xe549557a66b5b5c7!2s42%20Homestead%20Ave%2C%20Homelake%2C%20Randfontein%2C%201759!5e0!3m2!1sen!2sza!4v1707736427000!5m2!1sen!2sza"
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                    ></iframe>
                 </section>
             </main>
             <Footer />

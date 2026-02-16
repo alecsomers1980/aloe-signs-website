@@ -92,9 +92,9 @@ export default function Header() {
                 </nav>
 
                 {/* Right Side */}
-                <div>
-                    <a href="tel:0688838049" className="text-charcoal font-medium">
-                        068 883 8049
+                <div className="hidden lg:flex items-center gap-4">
+                    <a href="tel:0116932600" className="text-charcoal font-medium">
+                        011 693 2600
                     </a>
                     <Link
                         href="/shop/cart"

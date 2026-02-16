@@ -124,13 +124,34 @@ function OrderTrackingContent() {
             <Header />
 
             <main>
-                {/* Page Header */}
-                <section className="bg-bg-grey py-12">
-                    <div className="max-w-[1400px] mx-auto px-6">
-                        <h1 className="text-4xl font-bold text-charcoal mb-2">Track Your Order</h1>
-                        <p className="text-medium-grey text-lg">Enter your order number or email to view order status</p>
+                {/* Page Header (Rich Hero) */}
+                <div className="relative bg-charcoal text-white py-20 md:py-32">
+                    <div className="absolute inset-0 opacity-10">
+                        <div className="absolute inset-0" style={{
+                            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                            backgroundSize: '40px 40px'
+                        }}></div>
                     </div>
-                </section>
+
+                    <div className="max-w-7xl mx-auto px-6 relative z-10">
+                        <div className="max-w-3xl">
+                            <div className="flex items-center gap-2 text-sm text-light-grey mb-6">
+                                <Link href="/" className="hover:text-aloe-green transition-colors">
+                                    Home
+                                </Link>
+                                <span>/</span>
+                                <span className="text-white">Track Order</span>
+                            </div>
+
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+                                Track Your Order
+                            </h1>
+                            <p className="text-lg md:text-xl text-light-grey">
+                                Enter your order number or email to view order status
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Search Section */}
                 <section className="py-12">
