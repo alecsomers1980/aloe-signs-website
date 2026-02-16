@@ -1,6 +1,6 @@
 export default function StatsSection() {
     const stats = [
-        { value: '15+', label: 'Years in Business' },
+        { value: '25+', label: 'Years in Business' },
         { value: '500+', label: 'Projects Completed' },
         { value: '180+', label: 'Vehicles Wrapped' },
         { value: '4.9★', label: 'Google Rating' },

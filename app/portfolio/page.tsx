@@ -1,80 +1,201 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
-import { constructionProjects, portfolioCategories } from '@/lib/portfolio';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { constructionProjects, portfolioCategories, Project } from '@/lib/portfolio';
+import { X } from 'lucide-react';
 
-// Since this page is just a gallery, we don't need metadata here if it's a client component?
-// But usually page.tsx can export metadata if it's a server component.
-// The file I saw was 'use client' at the top.
-// I will reproduce the content exactly as I saw it, but clean.
+export default function PortfolioPage() {
+    const [activeCategory, setActiveCategory] = useState('All');
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-export default function GallerySection() {
-    const [images, setImages] = useState<string[]>([]);
-    const [visibleCount, setVisibleCount] = useState(12);
-    const [isLoading, setIsLoading] = useState(true);
-
-    // Fetch images on mount
-    useEffect(() => {
-        fetch('/api/images?folder=portfolio')
-            .then(res => res.json())
-            .then(data => {
-                if (data.images) {
-                    setImages(data.images);
-                }
-            })
-            .catch(err => console.error(err))
-            .finally(() => setIsLoading(false));
-    }, []);
-
-    const visibleImages = images.slice(0, visibleCount);
-
-    if (images.length === 0 && !isLoading) return null;
+    const filteredProjects = activeCategory === 'All'
+        ? constructionProjects
+        : constructionProjects.filter(project => project.category === activeCategory);
 
     return (
-        <section className="py-20 bg-charcoal text-white">
-            <div className="max-w-[1400px] mx-auto px-6">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Construction Gallery</h2>
-                    <p className="text-light-grey max-w-2xl mx-auto">
-                        A closer look at our recent installations and workshop activities.
-                    </p>
+        <div className="min-h-screen">
+            <Header />
+            <main>
+                {/* Hero Section */}
+                <div className="bg-charcoal text-white py-20 relative overflow-hidden">
+                    <div className="absolute inset-0 opacity-10">
+                        <div className="absolute inset-0" style={{
+                            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                            backgroundSize: '40px 40px'
+                        }}></div>
+                    </div>
+                    <div className="max-w-[1400px] mx-auto px-6 relative z-10 text-center">
+                        <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Portfolio</h1>
+                        <p className="text-xl text-light-grey max-w-2xl mx-auto">
+                            Explore our recent work and see how we help businesses stand out.
+                        </p>
+                    </div>
                 </div>
 
-                {isLoading ? (
-                    <div className="flex justify-center py-20">
-                        <div className="w-12 h-12 border-4 border-aloe-green border-t-transparent rounded-full animate-spin"></div>
+                {/* Categories */}
+                <section className="py-12 bg-bg-grey border-b border-border-grey sticky top-[80px] z-30 shadow-sm">
+                    <div className="max-w-[1400px] mx-auto px-6">
+                        <div className="flex flex-wrap justify-center gap-4">
+                            {portfolioCategories.map((category) => (
+                                <button
+                                    key={category}
+                                    onClick={() => setActiveCategory(category)}
+                                    className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${activeCategory === category
+                                            ? 'bg-aloe-green text-charcoal scale-105 shadow-md'
+                                            : 'bg-white text-medium-grey hover:bg-white/80 hover:text-charcoal border border-border-grey'
+                                        }`}
+                                >
+                                    {category}
+                                </button>
+                            ))}
+                        </div>
                     </div>
-                ) : (
-                    <>
-                        <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
-                            {visibleImages.map((src, idx) => (
-                                <div key={idx} className="break-inside-avoid relative group rounded-lg overflow-hidden bg-gray-800">
-                                    <Image
-                                        src={src}
-                                        alt={`Gallery Image ${idx + 1}`}
-                                        width={600}
-                                        height={400}
-                                        className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
-                                        loading="lazy"
-                                    />
+                </section>
+
+                {/* Gallery Grid */}
+                <section className="py-20">
+                    <div className="max-w-[1400px] mx-auto px-6">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {filteredProjects.map((project) => (
+                                <div
+                                    key={project.id}
+                                    className="group cursor-pointer bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                                    onClick={() => setSelectedProject(project)}
+                                >
+                                    <div className="relative aspect-[4/3] overflow-hidden">
+                                        <Image
+                                            src={project.image}
+                                            alt={project.title}
+                                            fill
+                                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                        />
+                                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                            <span className="text-white font-bold text-lg border-2 border-aloe-green px-6 py-2 rounded-full bg-charcoal/80">
+                                                View Project
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="p-6">
+                                        <div className="text-sm text-aloe-green font-bold mb-2 uppercase tracking-wider">
+                                            {project.category}
+                                        </div>
+                                        <h3 className="text-xl font-bold text-charcoal group-hover:text-aloe-green transition-colors">
+                                            {project.title}
+                                        </h3>
+                                    </div>
                                 </div>
                             ))}
                         </div>
 
-                        {visibleCount < images.length && (
-                            <div className="text-center mt-12">
-                                <button
-                                    onClick={() => setVisibleCount(prev => prev + 12)}
-                                    className="px-8 py-3 border border-aloe-green text-aloe-green font-semibold rounded hover:bg-aloe-green hover:text-charcoal transition-colors"
-                                >
-                                    Load More Photos
-                                </button>
+                        {filteredProjects.length === 0 && (
+                            <div className="text-center py-20 text-medium-grey">
+                                <p className="text-xl">No projects found in this category.</p>
                             </div>
                         )}
-                    </>
-                )}
-            </div>
-        </section>
+                    </div>
+                </section>
+            </main>
+            <Footer />
+
+            {/* Project Modal */}
+            {selectedProject && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+                    <div
+                        className="absolute inset-0 bg-black/90 backdrop-blur-sm"
+                        onClick={() => setSelectedProject(null)}
+                    ></div>
+
+                    <div className="bg-white rounded-lg w-full max-w-6xl max-h-[90vh] overflow-y-auto relative z-10 shadow-2xl animate-in fade-in zoom-in duration-300">
+                        <button
+                            onClick={() => setSelectedProject(null)}
+                            className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-lg hover:bg-bg-grey transition-colors z-20"
+                        >
+                            <X className="w-6 h-6 text-charcoal" />
+                        </button>
+
+                        <div className="grid lg:grid-cols-2">
+                            {/* Images Column */}
+                            <div className="bg-charcoal p-8 space-y-4">
+                                <div className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg border border-white/10">
+                                    <Image
+                                        src={selectedProject.image}
+                                        alt={selectedProject.title}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </div>
+                                {selectedProject.images && (
+                                    <div className="grid grid-cols-2 gap-4">
+                                        {selectedProject.images.map((img, idx) => (
+                                            <div key={idx} className="relative aspect-[4/3] rounded-lg overflow-hidden border border-white/10">
+                                                <Image
+                                                    src={img}
+                                                    alt={`${selectedProject.title} ${idx + 1}`}
+                                                    fill
+                                                    className="object-cover hover:scale-110 transition-transform duration-500"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Info Column */}
+                            <div className="p-8 lg:p-12 overflow-y-auto">
+                                <div className="mb-2 text-aloe-green font-bold uppercase tracking-wider text-sm sticky top-0 bg-white py-2">
+                                    {selectedProject.category}
+                                </div>
+                                <h2 className="text-3xl md:text-4xl font-bold text-charcoal mb-6">
+                                    {selectedProject.title}
+                                </h2>
+
+                                <div className="prose prose-lg text-medium-grey mb-8">
+                                    <p>{selectedProject.description}</p>
+                                    {selectedProject.challenge && (
+                                        <>
+                                            <h4 className="text-charcoal font-bold mt-6 mb-2">The Challenge</h4>
+                                            <p>{selectedProject.challenge}</p>
+                                        </>
+                                    )}
+                                    {selectedProject.solution && (
+                                        <>
+                                            <h4 className="text-charcoal font-bold mt-6 mb-2">The Solution</h4>
+                                            <p>{selectedProject.solution}</p>
+                                        </>
+                                    )}
+                                </div>
+
+                                <div className="border-t border-border-grey pt-6 grid grid-cols-2 gap-6">
+                                    {selectedProject.client && (
+                                        <div>
+                                            <h4 className="text-sm font-bold text-charcoal uppercase tracking-wider mb-1">Client</h4>
+                                            <p className="text-medium-grey">{selectedProject.client}</p>
+                                        </div>
+                                    )}
+                                    {selectedProject.location && (
+                                        <div>
+                                            <h4 className="text-sm font-bold text-charcoal uppercase tracking-wider mb-1">Location</h4>
+                                            <p className="text-medium-grey">{selectedProject.location}</p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="mt-12">
+                                    <a
+                                        href="/get-quote"
+                                        className="inline-block w-full text-center px-8 py-4 bg-aloe-green text-charcoal font-bold rounded hover:bg-green-hover transition-colors"
+                                    >
+                                        Get a Quote Like This
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 }

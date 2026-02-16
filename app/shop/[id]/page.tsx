@@ -90,11 +90,7 @@ export default function ProductDetailPage() {
                                     fill
                                     className="object-cover"
                                 />
-                                {product.discount && (
-                                    <div className="absolute top-6 left-6 bg-aloe-green text-charcoal px-4 py-2 rounded font-bold text-lg">
-                                        SAVE {product.discount}%
-                                    </div>
-                                )}
+                                {/* Discount icon removed as requested */}
                             </div>
 
                             {/* Product Info */}
@@ -122,9 +118,17 @@ export default function ProductDetailPage() {
                                         R{formatPrice(currentPrice)}
                                     </div>
                                     {product.pricingTiers && (
-                                        <p className="text-sm text-medium-grey">
-                                            Total price for {quantity} units ({sides === 'single' ? 'Single' : 'Double'} Sided)
-                                        </p>
+                                        <div className="space-y-1">
+                                            <p className="text-xl font-semibold text-charcoal">
+                                                Total price for {quantity} units
+                                            </p>
+                                            <p className="text-lg text-medium-grey">
+                                                (R{formatPrice(currentPrice / quantity)} per board)
+                                            </p>
+                                            <p className="text-sm text-medium-grey">
+                                                PRICE INCLUDES SHIPPING TO YOUR NEAREST POSTNET OR PUDO
+                                            </p>
+                                        </div>
                                     )}
                                 </div>
 
