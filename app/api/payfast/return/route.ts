@@ -11,8 +11,8 @@ export async function GET(request: NextRequest) {
     // PayFast doesn't send much data on return, just redirects
     // The actual payment verification happens via IPN
 
-    // Get order ID if available
-    const orderId = searchParams.get('m_payment_id');
+    // Get order ID if available (from m_payment_id or manual orderId param)
+    const orderId = searchParams.get('m_payment_id') || searchParams.get('orderId');
 
     if (orderId) {
         // Redirect to order confirmation page

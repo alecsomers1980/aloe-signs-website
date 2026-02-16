@@ -95,8 +95,8 @@ export class PayFastService {
         const data: Record<string, string> = {
             merchant_id: this.config.merchantId,
             merchant_key: this.config.merchantKey,
-            return_url: `${this.config.siteUrl}/api/payfast/return`,
-            cancel_url: `${this.config.siteUrl}/shop/checkout?cancelled=true`,
+            return_url: `${this.config.siteUrl}/api/payfast/return?orderId=${params.orderId}`,
+            cancel_url: `${this.config.siteUrl}/shop/checkout?cancelled=true&orderId=${params.orderId}`,
             notify_url: `${this.config.siteUrl}/api/payfast/notify`,
             name_first: params.customerFirstName,
             name_last: params.customerLastName,
