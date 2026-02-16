@@ -52,6 +52,38 @@ export default function PortfolioPage() {
                     </div>
                 </div>
 
+                {/* Categories Navigation */}
+                <section className="py-8 bg-bg-grey border-b border-border-grey sticky top-[80px] z-30 shadow-sm">
+                    <div className="max-w-[1400px] mx-auto px-6">
+                        <div className="flex flex-wrap justify-center gap-4">
+                            {portfolioCategories.filter(cat => cat !== 'All').map((category) => (
+                                <Link
+                                    key={category}
+                                    href={`#${category.toLowerCase().replace(/\s+/g, '-')}`}
+                                    className="px-6 py-2 rounded-full text-sm font-semibold bg-white text-medium-grey hover:bg-aloe-green hover:text-charcoal border border-border-grey transition-all shadow-sm hover:shadow-md"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        const id = category.toLowerCase().replace(/\s+/g, '-');
+                                        const element = document.getElementById(id);
+                                        if (element) {
+                                            const headerOffset = 180; // Adjust for sticky header + nav
+                                            const elementPosition = element.getBoundingClientRect().top;
+                                            const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+                                            window.scrollTo({
+                                                top: offsetPosition,
+                                                behavior: 'smooth'
+                                            });
+                                        }
+                                    }}
+                                >
+                                    {category}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
                 {/* Portfolio Sections */}
                 <div className="py-20 space-y-20">
                     {portfolioCategories.filter(cat => cat !== 'All').map((category) => {
