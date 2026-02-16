@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { payfast } from '@/lib/payfast';
-import fs from 'fs/promises';
-import path from 'path';
+import { sql } from '@vercel/postgres';
 import { Order, updateOrderStatus } from '@/lib/orders';
 import { sendOrderConfirmationEmail, sendAdminOrderNotification } from '@/lib/email';
 
@@ -34,28 +33,25 @@ export async function POST(request: NextRequest) {
         // Get order ID from m_payment_id
         const orderId = data.m_payment_id;
 
-        // Load orders
-        const ordersPath = path.join(process.cwd(), 'data', 'orders.json');
-        let orders: Order[] = [];
-
+        // Find the order in DB
+        let order: Order | undefined;
         try {
-            const ordersData = await fs.readFile(ordersPath, 'utf-8');
-            orders = JSON.parse(ordersData);
-        } catch (error) {
-            console.error('Error loading orders:', error);
+            const result = await sql`SELECT data FROM orders WHERE id = ${orderId}`;
+            if (result.rows.length > 0) {
+                order = result.rows[0].data as Order;
+            }
+        } catch (dbError) {
+            console.error('Database error loading order:', dbError);
         }
 
-        // Find the order
-        const orderIndex = orders.findIndex(o => o.id === orderId);
-
-        if (orderIndex === -1) {
+        if (!order) {
             console.error('Order not found:', orderId);
             return NextResponse.json({ error: 'Order not found' }, { status: 404 });
         }
 
         // Update order based on payment status
         const paymentStatus = data.payment_status;
-        let updatedOrder = orders[orderIndex];
+        let updatedOrder = order;
 
         if (paymentStatus === 'COMPLETE') {
             updatedOrder = updateOrderStatus(
@@ -92,9 +88,21 @@ export async function POST(request: NextRequest) {
             console.log('Payment failed/cancelled for order:', updatedOrder.orderNumber);
         }
 
-        // Save updated order
-        orders[orderIndex] = updatedOrder;
-        await fs.writeFile(ordersPath, JSON.stringify(orders, null, 2));
+        // Save updated order to DB
+        try {
+            await sql`
+                UPDATE orders 
+                SET 
+                    status = ${updatedOrder.status}, 
+                    payment_status = ${updatedOrder.paymentStatus}, 
+                    updated_at = ${updatedOrder.updatedAt}, 
+                    data = ${JSON.stringify(updatedOrder)}
+                WHERE id = ${orderId}
+            `;
+        } catch (saveError) {
+            console.error('Failed to save updated order to DB:', saveError);
+            return NextResponse.json({ error: 'Database update failed' }, { status: 500 });
+        }
 
         return NextResponse.json({ success: true });
 
@@ -106,3 +114,4 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+

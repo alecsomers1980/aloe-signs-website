@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createOrder, Order } from '@/lib/orders';
-import fs from 'fs/promises';
-import path from 'path';
+import { sql } from '@vercel/postgres';
 
 export async function POST(request: NextRequest) {
     try {
@@ -38,31 +37,29 @@ export async function POST(request: NextRequest) {
             total
         });
 
-        // Ensure data directory exists
-        const dataDir = path.join(process.cwd(), 'data');
+        // Save order to Database
         try {
-            await fs.mkdir(dataDir, { recursive: true });
-        } catch (error) {
-            // Directory might already exist
+            await sql`
+                INSERT INTO orders (id, order_number, customer_email, status, payment_status, total, created_at, updated_at, data)
+                VALUES (
+                    ${order.id}, 
+                    ${order.orderNumber}, 
+                    ${order.customerEmail}, 
+                    ${order.status}, 
+                    ${order.paymentStatus}, 
+                    ${order.total}, 
+                    ${order.createdAt}, 
+                    ${order.updatedAt}, 
+                    ${JSON.stringify(order)}
+                )
+            `;
+        } catch (dbError) {
+            console.error('Database error:', dbError);
+            return NextResponse.json(
+                { error: 'Database connection failed' },
+                { status: 500 }
+            );
         }
-
-        // Load existing orders
-        const ordersPath = path.join(dataDir, 'orders.json');
-        let orders: Order[] = [];
-
-        try {
-            const ordersData = await fs.readFile(ordersPath, 'utf-8');
-            orders = JSON.parse(ordersData);
-        } catch (error) {
-            // File doesn't exist yet, start with empty array
-            orders = [];
-        }
-
-        // Add new order
-        orders.push(order);
-
-        // Save orders
-        await fs.writeFile(ordersPath, JSON.stringify(orders, null, 2));
 
         console.log('Order created:', order.orderNumber);
 
@@ -83,3 +80,4 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+

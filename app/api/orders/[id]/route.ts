@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { sql } from '@vercel/postgres';
 import { Order } from '@/lib/orders';
 
 export async function GET(
@@ -9,37 +8,33 @@ export async function GET(
 ) {
     const params = await props.params;
     try {
-        const searchQuery = params.id;
+        const searchQuery = decodeURIComponent(params.id);
+        const isEmail = searchQuery.includes('@');
 
-        // Load orders
-        const ordersPath = path.join(process.cwd(), 'data', 'orders.json');
+        let order: Order | undefined;
 
         try {
-            const ordersData = await fs.readFile(ordersPath, 'utf-8');
-            const orders: Order[] = JSON.parse(ordersData);
-
-            // Check if search query is an email
-            const isEmail = searchQuery.includes('@');
-
-            let order: Order | undefined;
-
             if (isEmail) {
                 // Search by email - return the most recent order
-                const emailOrders = orders.filter(o =>
-                    o.customerEmail.toLowerCase() === searchQuery.toLowerCase()
-                );
-
-                if (emailOrders.length > 0) {
-                    // Sort by creation date and return most recent
-                    order = emailOrders.sort((a, b) =>
-                        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-                    )[0];
+                const result = await sql`
+                    SELECT data FROM orders 
+                    WHERE LOWER(customer_email) = LOWER(${searchQuery})
+                    ORDER BY created_at DESC 
+                    LIMIT 1
+                `;
+                if (result.rows.length > 0) {
+                    order = result.rows[0].data as Order;
                 }
             } else {
                 // Search by order ID or order number
-                order = orders.find(o =>
-                    o.id === searchQuery || o.orderNumber === searchQuery
-                );
+                const result = await sql`
+                    SELECT data FROM orders 
+                    WHERE id = ${searchQuery} OR order_number = ${searchQuery}
+                    LIMIT 1
+                `;
+                if (result.rows.length > 0) {
+                    order = result.rows[0].data as Order;
+                }
             }
 
             if (!order) {
@@ -51,9 +46,11 @@ export async function GET(
 
             return NextResponse.json({ order });
 
-        } catch (error) {
+        } catch (dbError) {
+            console.error('Database error:', dbError);
+            // Fallback for 404 if table doesn't exist yet
             return NextResponse.json(
-                { error: 'Orders file not found' },
+                { error: 'Order not found (DB Error)' },
                 { status: 404 }
             );
         }
@@ -66,3 +63,4 @@ export async function GET(
         );
     }
 }
+

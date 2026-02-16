@@ -1,21 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { sql } from '@vercel/postgres';
 import { Order } from '@/lib/orders';
 
 export async function GET(request: NextRequest) {
     try {
-        // Load orders
-        const ordersPath = path.join(process.cwd(), 'data', 'orders.json');
-
+        // Load orders from Database
         try {
-            const ordersData = await fs.readFile(ordersPath, 'utf-8');
-            const orders: Order[] = JSON.parse(ordersData);
+            const result = await sql`
+                SELECT data FROM orders 
+                ORDER BY created_at DESC
+            `;
+
+            const orders = result.rows.map(row => row.data as Order);
 
             return NextResponse.json({ orders });
-
-        } catch (error) {
-            // If file doesn't exist, return empty array
+        } catch (dbError) {
+            // Handle table not existing yet or other DB errors
+            console.error('Database connection failed:', dbError);
             return NextResponse.json({ orders: [] });
         }
 
@@ -27,3 +28,4 @@ export async function GET(request: NextRequest) {
         );
     }
 }
+
