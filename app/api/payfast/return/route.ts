@@ -14,6 +14,10 @@ export async function GET(request: NextRequest) {
     // Get order ID if available (from m_payment_id or manual orderId param)
     const orderId = searchParams.get('m_payment_id') || searchParams.get('orderId');
 
+    console.log('PayFast Return Hit');
+    console.log('Search Params:', Object.fromEntries(searchParams.entries()));
+    console.log('Derived OrderID:', orderId);
+
     if (orderId) {
         // Redirect to order confirmation page
         return redirect(`/order/confirmation?orderId=${orderId}`);

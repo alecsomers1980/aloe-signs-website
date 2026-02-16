@@ -39,7 +39,8 @@ export class PayFastService {
             merchantKey: process.env.PAYFAST_MERCHANT_KEY || '46f0cd694581a',
             passphrase: process.env.PAYFAST_PASSPHRASE || '',
             mode: (process.env.PAYFAST_MODE as 'sandbox' | 'production') || 'sandbox',
-            siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+            siteUrl: process.env.NEXT_PUBLIC_SITE_URL ||
+                (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
         };
     }
 
