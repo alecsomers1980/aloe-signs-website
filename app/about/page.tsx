@@ -33,11 +33,11 @@ export default function AboutPage() {
                             </h1>
 
                             <p className="text-2xl md:text-3xl text-aloe-green font-semibold mb-6">
-                                Signage that builds businesses
+                                Products that builds businesses
                             </p>
 
                             <p className="text-lg md:text-xl text-light-grey">
-                                For over 15 years, we&apos;ve been helping South African businesses stand out with
+                                For over 25 years, we&apos;ve been helping South African businesses stand out with
                                 professional signage and branding solutions.
                             </p>
                         </div>

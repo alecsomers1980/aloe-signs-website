@@ -18,7 +18,7 @@ export default function Home() {
           <div className="max-w-[1400px] mx-auto px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <div>
-                <div className="text-5xl font-bold text-aloe-green mb-2">15+</div>
+                <div className="text-5xl font-bold text-aloe-green mb-2">25+</div>
                 <div className="text-light-grey">Years in Business</div>
               </div>
               <div>
@@ -54,10 +54,10 @@ export default function Home() {
                 Get a Quote
               </a>
               <a
-                href="tel:0116932600"
+                href="tel:0688838049"
                 className="px-8 py-4 border-2 border-charcoal text-charcoal font-semibold rounded hover:bg-charcoal hover:text-white transition-colors text-lg"
               >
-                Call 011 693 2600
+                Call 068 883 8049
               </a>
             </div>
           </div>

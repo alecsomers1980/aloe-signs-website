@@ -17,10 +17,10 @@ export default function Footer() {
                             />
                         </div>
                         <p className="text-light-grey mb-4">
-                            Signage that builds businesses.
+                            Products that builds businesses.
                         </p>
                         <div className="space-y-2 text-light-grey">
-                            <p>011 693 2600</p>
+                            <p>068 883 8049</p>
                             <p>team@aloesigns.co.za</p>
                         </div>
                     </div>
