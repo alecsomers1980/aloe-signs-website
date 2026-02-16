@@ -10,13 +10,8 @@ import { X } from 'lucide-react';
 import Link from 'next/link';
 
 export default function PortfolioPage() {
-    const [activeCategory, setActiveCategory] = useState('All');
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const [modalMainImage, setModalMainImage] = useState<string>('');
-
-    const filteredProjects = activeCategory === 'All'
-        ? constructionProjects
-        : constructionProjects.filter(project => project.category === activeCategory);
 
     // When project selected, reset main image to default
     const handleProjectClick = (project: Project) => {
@@ -57,68 +52,55 @@ export default function PortfolioPage() {
                     </div>
                 </div>
 
-                {/* Categories */}
-                <section className="py-12 bg-bg-grey border-b border-border-grey sticky top-[80px] z-30 shadow-sm">
-                    <div className="max-w-[1400px] mx-auto px-6">
-                        <div className="flex flex-wrap justify-center gap-4">
-                            {portfolioCategories.map((category) => (
-                                <button
-                                    key={category}
-                                    onClick={() => setActiveCategory(category)}
-                                    className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${activeCategory === category
-                                        ? 'bg-aloe-green text-charcoal scale-105 shadow-md'
-                                        : 'bg-white text-medium-grey hover:bg-white/80 hover:text-charcoal border border-border-grey'
-                                        }`}
-                                >
-                                    {category}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </section>
+                {/* Portfolio Sections */}
+                <div className="py-20 space-y-20">
+                    {portfolioCategories.filter(cat => cat !== 'All').map((category) => {
+                        const categoryProjects = constructionProjects.filter(project => project.category === category);
 
-                {/* Gallery Grid */}
-                <section className="py-20">
-                    <div className="max-w-[1400px] mx-auto px-6">
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {filteredProjects.map((project) => (
-                                <div
-                                    key={project.id}
-                                    className="group cursor-pointer bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-                                    onClick={() => handleProjectClick(project)}
-                                >
-                                    <div className="relative aspect-[4/3] overflow-hidden">
-                                        <Image
-                                            src={project.image}
-                                            alt={project.title}
-                                            fill
-                                            className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                        />
-                                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                            <span className="text-white font-bold text-lg border-2 border-aloe-green px-6 py-2 rounded-full bg-charcoal/80">
-                                                View Project
-                                            </span>
-                                        </div>
+                        if (categoryProjects.length === 0) return null;
+
+                        return (
+                            <section key={category} id={category.toLowerCase().replace(/\s+/g, '-')} className="scroll-mt-24">
+                                <div className="max-w-[1400px] mx-auto px-6">
+                                    <div className="flex items-center gap-4 mb-8">
+                                        <h2 className="text-3xl font-bold text-charcoal">{category}</h2>
+                                        <div className="h-px bg-border-grey flex-1"></div>
                                     </div>
-                                    <div className="p-6">
-                                        <div className="text-sm text-aloe-green font-bold mb-2 uppercase tracking-wider">
-                                            {project.category}
-                                        </div>
-                                        <h3 className="text-xl font-bold text-charcoal group-hover:text-aloe-green transition-colors">
-                                            {project.title}
-                                        </h3>
+
+                                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                        {categoryProjects.map((project) => (
+                                            <div
+                                                key={project.id}
+                                                className="group cursor-pointer bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                                                onClick={() => handleProjectClick(project)}
+                                            >
+                                                <div className="relative aspect-[4/3] overflow-hidden">
+                                                    <Image
+                                                        src={project.image}
+                                                        alt={project.title}
+                                                        fill
+                                                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                                    />
+                                                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                                        <span className="text-white font-bold text-lg border-2 border-aloe-green px-6 py-2 rounded-full bg-charcoal/80">
+                                                            View Project
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="p-6">
+                                                    <h3 className="text-xl font-bold text-charcoal group-hover:text-aloe-green transition-colors">
+                                                        {project.title}
+                                                    </h3>
+                                                    <p className="text-medium-grey mt-2 line-clamp-2">{project.description}</p>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-
-                        {filteredProjects.length === 0 && (
-                            <div className="text-center py-20 text-medium-grey">
-                                <p className="text-xl">No projects found in this category.</p>
-                            </div>
-                        )}
-                    </div>
-                </section>
+                            </section>
+                        );
+                    })}
+                </div>
             </main>
             <Footer />
 
