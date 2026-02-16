@@ -12,7 +12,15 @@ export async function GET(request: NextRequest) {
     // The actual payment verification happens via IPN
 
     // Get order ID if available (from m_payment_id or manual orderId param)
-    const orderId = searchParams.get('m_payment_id') || searchParams.get('orderId');
+    let orderId = searchParams.get('m_payment_id') || searchParams.get('orderId');
+
+    // Fallback: Check cookie if URL params are stripped
+    if (!orderId) {
+        orderId = request.cookies.get('pending_order_id')?.value || null;
+        if (orderId) {
+            console.log('Recovered OrderID from Cookie:', orderId);
+        }
+    }
 
     console.log('PayFast Return Hit');
     console.log('Search Params:', Object.fromEntries(searchParams.entries()));

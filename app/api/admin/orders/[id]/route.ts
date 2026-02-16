@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { sql } from '@vercel/postgres';
 import { Order, updateOrderStatus } from '@/lib/orders';
 import { sendOrderStatusUpdateEmail } from '@/lib/email';
 
@@ -30,57 +29,85 @@ export async function PATCH(
             );
         }
 
-        // Load orders
-        const ordersPath = path.join(process.cwd(), 'data', 'orders.json');
+        // Fetch current order from DB
+        const result = await sql`SELECT data FROM orders WHERE id = ${orderId}`;
 
-        try {
-            const ordersData = await fs.readFile(ordersPath, 'utf-8');
-            let orders: Order[] = JSON.parse(ordersData);
-
-            // Find the order
-            const orderIndex = orders.findIndex(o => o.id === orderId);
-
-            if (orderIndex === -1) {
-                return NextResponse.json(
-                    { error: 'Order not found' },
-                    { status: 404 }
-                );
-            }
-
-            // Store previous status for email
-            const previousStatus = orders[orderIndex].status;
-
-            // Update the order status
-            orders[orderIndex] = updateOrderStatus(orders[orderIndex], status);
-
-            // Save updated orders
-            await fs.writeFile(ordersPath, JSON.stringify(orders, null, 2));
-
-            // Send status update email to customer
-            try {
-                await sendOrderStatusUpdateEmail(orders[orderIndex], previousStatus);
-                console.log(`Status update email sent for order ${orders[orderIndex].orderNumber}`);
-            } catch (emailError) {
-                console.error('Failed to send status update email:', emailError);
-                // Don't fail the request if email fails
-            }
-
-            return NextResponse.json({
-                success: true,
-                order: orders[orderIndex]
-            });
-
-        } catch (error) {
+        if (result.rows.length === 0) {
             return NextResponse.json(
-                { error: 'Orders file not found' },
+                { error: 'Order not found' },
                 { status: 404 }
             );
         }
+
+        const currentOrder = result.rows[0].data as Order;
+        const previousStatus = currentOrder.status;
+
+        // Update the order status
+        const updatedOrder = updateOrderStatus(currentOrder, status);
+
+        // Update DB
+        await sql`
+            UPDATE orders 
+            SET 
+                status = ${updatedOrder.status}, 
+                payment_status = ${updatedOrder.paymentStatus}, 
+                updated_at = ${updatedOrder.updatedAt}, 
+                data = ${JSON.stringify(updatedOrder)}
+            WHERE id = ${orderId}
+        `;
+
+        // Send status update email to customer
+        try {
+            await sendOrderStatusUpdateEmail(updatedOrder, previousStatus);
+            console.log(`Status update email sent for order ${updatedOrder.orderNumber}`);
+        } catch (emailError) {
+            console.error('Failed to send status update email:', emailError);
+        }
+
+        return NextResponse.json({
+            success: true,
+            order: updatedOrder
+        });
 
     } catch (error) {
         console.error('Update order status error:', error);
         return NextResponse.json(
             { error: 'Failed to update order status' },
+            { status: 500 }
+        );
+    }
+}
+
+export async function DELETE(
+    request: NextRequest,
+    props: { params: Promise<{ id: string }> }
+) {
+    const params = await props.params;
+    try {
+        const orderId = params.id;
+
+        // Verify admin auth (cookie check)
+        const authCookie = request.cookies.get('admin_auth');
+        if (authCookie?.value !== 'true') {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
+        // Delete from DB
+        const result = await sql`DELETE FROM orders WHERE id = ${orderId}`;
+
+        if (result.rowCount === 0) {
+            return NextResponse.json(
+                { error: 'Order not found' },
+                { status: 404 }
+            );
+        }
+
+        return NextResponse.json({ success: true });
+
+    } catch (error) {
+        console.error('Delete order error:', error);
+        return NextResponse.json(
+            { error: 'Failed to delete order' },
             { status: 500 }
         );
     }

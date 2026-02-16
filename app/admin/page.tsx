@@ -59,6 +59,28 @@ export default function AdminDashboard() {
         }
     };
 
+    const handleDeleteOrder = async (orderId: string) => {
+        if (!confirm('Are you sure you want to delete this order? This action cannot be undone.')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/admin/orders/${orderId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                // Remove from local state
+                setOrders(prev => prev.filter(order => order.id !== orderId));
+            } else {
+                alert('Failed to delete order');
+            }
+        } catch (error) {
+            console.error('Delete error:', error);
+            alert('An error occurred while deleting the order');
+        }
+    };
+
     const getStatusColor = (status: Order['status']) => {
         switch (status) {
             case 'pending':
@@ -305,12 +327,20 @@ export default function AdminDashboard() {
                                                 })}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <Link
-                                                    href={`/admin/orders/${order.id}`}
-                                                    className="text-aloe-green hover:text-green-hover font-medium"
-                                                >
-                                                    View Details
-                                                </Link>
+                                                <div className="flex items-center gap-3">
+                                                    <Link
+                                                        href={`/admin/orders/${order.id}`}
+                                                        className="text-aloe-green hover:text-green-hover font-medium"
+                                                    >
+                                                        View
+                                                    </Link>
+                                                    <button
+                                                        onClick={() => handleDeleteOrder(order.id)}
+                                                        className="text-red-600 hover:text-red-800 font-medium text-sm"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))

@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
 
         console.log('Order created:', order.orderNumber);
 
-        return NextResponse.json({
+        const response = NextResponse.json({
             success: true,
             order: {
                 id: order.id,
@@ -71,6 +71,15 @@ export async function POST(request: NextRequest) {
                 total: order.total
             }
         });
+
+        // Set pending order cookie for payment return fallback
+        response.cookies.set('pending_order_id', order.id, {
+            httpOnly: true,
+            path: '/',
+            maxAge: 3600 // 1 hour
+        });
+
+        return response;
 
     } catch (error) {
         console.error('Create order error:', error);
